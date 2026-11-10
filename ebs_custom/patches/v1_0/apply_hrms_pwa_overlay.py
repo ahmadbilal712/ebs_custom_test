@@ -9,6 +9,11 @@ import frappe
 OVERLAY_COPY_PATHS = [
 	"frontend/src/views/ebs_custom",
 	"frontend/src/components/BaseLayout.vue",
+	"frontend/src/components/CheckInPanel.vue",
+	"frontend/src/plugins/translationsPlugin.js",
+	"frontend/src/utils/formatters.js",
+	"frontend/src/utils/documentDirection.js",
+	"frontend/src/document-direction.css",
 	"frontend/src/views/ChangePassword.vue",
 	"frontend/src/views/AppSettings.vue",
 	"frontend/src/views/Profile.vue",
@@ -41,6 +46,7 @@ def apply_hrms_pwa_overlay():
 	hrms_root = frappe.get_app_path("hrms", "..")
 
 	_copy_overlay_files(overlay_root, hrms_root)
+	_patch_main_js(hrms_root)
 	_patch_router_index(hrms_root)
 	_patch_home_vue(hrms_root)
 	_patch_hooks(hrms_root)
@@ -137,6 +143,30 @@ def _copy_overlay_files(overlay_root, hrms_root):
 		else:
 			os.makedirs(os.path.dirname(dst), exist_ok=True)
 			shutil.copy2(src, dst)
+
+
+def _patch_main_js(hrms_root):
+	path = os.path.join(hrms_root, "frontend", "src", "main.js")
+	if not os.path.isfile(path):
+		return
+
+	with open(path, encoding="utf-8") as handle:
+		content = handle.read()
+
+	if "applyDocumentDirection" not in content:
+		content = content.replace(
+			'import "./main.css"\n',
+			'import "./main.css"\nimport "./document-direction.css"\nimport { applyDocumentDirection } from "./utils/documentDirection.js"\n',
+			1,
+		)
+		content = content.replace(
+			"\tawait translationsPlugin.isReady();",
+			"\tapplyDocumentDirection()\n\tawait translationsPlugin.isReady();",
+			1,
+		)
+
+	with open(path, "w", encoding="utf-8") as handle:
+		handle.write(content)
 
 
 def _patch_router_index(hrms_root):

@@ -1,0 +1,16 @@
+html[dir="rtl"],
+html[dir="rtl"] body,
+html[dir="rtl"] ion-app,
+html[dir="rtl"] ion-page,
+html[dir="rtl"] ion-content,
+html[dir="rtl"] ion-header,
+html[dir="rtl"] ion-tab-bar {
+	direction: rtl;
+}
+
+html[dir="rtl"] svg.feather-chevron-right,
+html[dir="rtl"] svg.feather-chevron-left,
+html[dir="rtl"] svg.feather-arrow-right,
+html[dir="rtl"] svg.feather-arrow-left {
+	transform: scaleX(-1);
+}

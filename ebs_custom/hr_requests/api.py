@@ -324,8 +324,9 @@ def ensure_information_request_access():
 
 	if frappe.db.exists("Role", "Employee"):
 		add_permission("Employee Data Adjustment Request", "Employee", 0)
-		for perm in ("read", "write", "create", "submit"):
+		for perm in ("read", "write", "create"):
 			update_permission_property("Employee Data Adjustment Request", "Employee", 0, perm, 1)
+		update_permission_property("Employee Data Adjustment Request", "Employee", 0, "submit", 0)
 		update_permission_property("Employee Data Adjustment Request", "Employee", 0, "if_owner", 1)
 
 	for role in ("HR Officer", "HR Manager", "HR User"):
