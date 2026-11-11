@@ -28,6 +28,7 @@
 							>
 								<option value="en">English</option>
 								<option value="ar">العربية</option>
+								<option value="tr">Türkçe</option>
 							</select>
 						</div>
 						<div class="flex flex-col bg-white rounded">
@@ -95,7 +96,9 @@ import { arePushNotificationsEnabled } from "@/data/notifications"
 const __ = inject("$translate")
 const router = useRouter()
 
-const language = ref(window.frappe?.boot?.lang === "ar" ? "ar" : "en")
+const supportedLanguages = ["en", "ar", "tr"]
+const bootLanguage = (window.frappe?.boot?.lang || "en").split("-")[0]
+const language = ref(supportedLanguages.includes(bootLanguage) ? bootLanguage : "en")
 const relayReady = computed(
 	() => Boolean(window.frappe?.boot.push_relay_server_url && arePushNotificationsEnabled.data)
 )

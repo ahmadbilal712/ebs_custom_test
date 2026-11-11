@@ -6,7 +6,7 @@ from frappe.utils import getdate
 
 from ebs_custom.hr_requests.events.workflow_notifications import _classify_state, _get_workflow, _is_draft
 
-LANGUAGES = {"en", "ar"}
+LANGUAGES = {"en", "ar", "tr"}
 
 MANAGER_ROLES = {"System Manager", "HR Manager", "HR Officer", "Branch Manager"}
 
@@ -62,7 +62,7 @@ def _roles():
 def set_my_language(language):
 	language = (language or "").strip()
 	if language not in LANGUAGES:
-		frappe.throw(_("Choose English or Arabic."))
+		frappe.throw(_("Choose English, Arabic, or Turkish."))
 
 	frappe.db.set_value("User", frappe.session.user, "language", language)
 	frappe.db.commit()
