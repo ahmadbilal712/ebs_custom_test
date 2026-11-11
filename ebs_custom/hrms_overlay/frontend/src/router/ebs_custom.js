@@ -54,11 +54,6 @@ routes.push(
 		name: "PendingRequests",
 		component: () => import("@/views/ebs_custom/PendingRequests.vue"),
 	},
-	{
-		path: "/bulk-shift",
-		name: "BulkShiftAssignment",
-		component: () => import("@/views/ebs_custom/BulkShiftForm.vue"),
-	},
 )
 
 export default routes

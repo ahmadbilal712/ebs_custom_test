@@ -14,6 +14,7 @@ OVERLAY_COPY_PATHS = [
 	"frontend/src/utils/formatters.js",
 	"frontend/src/utils/documentDirection.js",
 	"frontend/src/document-direction.css",
+	"frontend/src/fonts",
 	"frontend/src/views/ChangePassword.vue",
 	"frontend/src/views/AppSettings.vue",
 	"frontend/src/views/Profile.vue",
@@ -307,15 +308,13 @@ def _insert_home_links(content):
 		route: "PendingRequests",
 	}""",
 		),
-		(
-			"BulkShiftAssignment",
-			"""	{
-		icon: markRaw(ShiftIcon),
-		title: __("Assign Shift"),
-		route: "BulkShiftAssignment",
-	}""",
-		),
 	]
+	content = re.sub(
+		r"\n\t\{\n\t\ticon: markRaw\(ShiftIcon\),\n\t\ttitle: __\(\"Assign Shift\"\),\n\t\troute: \"BulkShiftAssignment\",\n\t\},?",
+		"",
+		content,
+	)
+	end = content.find("\n]", start)
 	block = content[start:end]
 	for route, snippet in links:
 		if route in block:
